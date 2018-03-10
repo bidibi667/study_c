@@ -1,0 +1,87 @@
+#include <iostream>
+
+struct Node
+{
+	Node* pNext = nullptr;
+	int data = -1;
+	
+};
+
+struct List
+{
+	int len = 0;
+	Node* pHead = nullptr;
+};
+
+void Print(const List& lst) {
+	std::cout << "********" << std::endl;
+	Node* it = lst.pHead;
+	while (it) {
+		
+		std::cout << it->data << "\t";
+		it = it->pNext;
+	}
+	std::cout << "********" << std::endl;
+
+}
+
+void Add(List& lst, int data) {
+	lst.len++;
+	Node *new_node = new Node;
+	new_node->data = data;
+	new_node->pNext = lst.pHead;
+	lst.pHead = new_node;
+	++lst.len;
+}
+
+int Pop(List &lst) {
+	if (lst.len == 0) {
+		return -1;
+	}
+	Node *pop_item = lst.pHead;
+	int ret_val = pop_item->data;
+	lst.pHead = lst.pHead->pNext;
+
+	--lst.len;
+	delete pop_item;
+	return ret_val;
+}
+
+void Insert(List &lst, int data, int pos) {
+	if (lst.len < pos) {
+		return;
+	}
+	Node *new_node = new Node;
+	new_node->data = data;
+	Node* it = lst.pHead;
+	int count = 0;
+	while (it && count != pos) {
+		++count;
+		it = it->pNext;
+	}
+
+	new_node->pNext = it->pNext;
+	it->pNext = new_node;
+
+
+
+}
+
+int main() {
+	List my_list;
+	Add(my_list, 1);
+	Add(my_list, 11);
+	Add(my_list, 24);
+	Add(my_list, 25);
+	Add(my_list, 23);
+	Add(my_list, 55);
+	Print(my_list);
+	/*std::cout << Pop(my_list) << std::endl;
+	std::cout << Pop(my_list) << std::endl;
+	Add(my_list, 555555);
+	Print(my_list);*/
+	Insert(my_list, 99, 4);
+	Print(my_list);
+	getchar();
+	return 0;
+}
